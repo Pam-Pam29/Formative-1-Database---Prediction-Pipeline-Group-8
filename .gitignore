@@ -1,0 +1,13 @@
+venv/
+.DS_Store
+.ipynb_checkpoints/
+.pytest_cache/
+.coverage/
+.coverage.*
+.coverage.xml
+.coverage.xml.gz
+.coverage.xml.gz.part
+.coverage.xml.gz.part.1
+.coverage.xml.gz.part.2
+.coverage.xml.gz.part.3
+.coverage.xml.gz.part.4
