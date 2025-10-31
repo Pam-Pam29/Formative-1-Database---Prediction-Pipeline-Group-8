@@ -29,8 +29,8 @@ def get_db_config():
         'port': DB_PORT
     }
 
-# CSV file path
-CSV_FILE = Path(__file__).parent.parent.parent / 'crop_yield.csv'
+# CSV file path - script is in db/postgres/, CSV is in same folder
+CSV_FILE = Path(__file__).parent / 'crop_yield.csv'
 
 def connect_db():
     """Establish database connection"""
@@ -112,15 +112,16 @@ def import_yield_records(conn, df):
             
             success_count += 1
             
-            # Progress indicator
-            if (idx + 1) % 1000 == 0:
-                print(f"  Progress: {idx + 1}/{total_records} ({success_count} successful, {error_count} errors)")
+            # Progress indicator - show every 500 records for better visibility
+            if (idx + 1) % 500 == 0:
+                percent = ((idx + 1) / total_records) * 100
+                print(f"  Progress: {idx + 1:,}/{total_records:,} ({percent:.1f}%) - {success_count} successful, {error_count} errors", flush=True)
                 conn.commit()  # Commit in batches for better performance
             
         except Exception as e:
             error_count += 1
             if error_count <= 10:  # Print first 10 errors
-                print(f"  ✗ Error on row {idx + 1}: {e}")
+                print(f"  [ERROR] Error on row {idx + 1}: {e}")
     
     conn.commit()
     print(f"\n✓ Import complete!")
@@ -152,7 +153,7 @@ def verify_import(conn):
             print(f"  {table_name:25} : {count:,}")
         
     except Exception as e:
-        print(f"✗ Error verifying import: {e}")
+        print(f"[ERROR] Error verifying import: {e}")
     finally:
         cursor.close()
 
@@ -165,11 +166,11 @@ def main():
     # Load CSV
     print(f"\nLoading CSV from: {CSV_FILE}")
     if not CSV_FILE.exists():
-        print(f"✗ Error: CSV file not found at {CSV_FILE}")
+        print(f"[ERROR] Error: CSV file not found at {CSV_FILE}")
         return
     
     df = pd.read_csv(CSV_FILE)
-    print(f"✓ Loaded {len(df):,} records from CSV")
+    print(f"[OK] Loaded {len(df):,} records from CSV")
     
     # Connect to database
     conn = connect_db()

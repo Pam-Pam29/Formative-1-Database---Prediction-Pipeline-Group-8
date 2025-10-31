@@ -11,3 +11,13 @@ venv/
 .coverage.xml.gz.part.2
 .coverage.xml.gz.part.3
 .coverage.xml.gz.part.4
+
+# Environment variables and secrets
+.env
+.env.local
+.env.*.local
+*.env
+
+# Database credentials
+*_credentials.txt
+*_config.json
