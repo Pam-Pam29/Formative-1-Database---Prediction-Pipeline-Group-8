@@ -1,0 +1,46 @@
+erDiagram
+    STATES ||--o{ CROP_YIELD_RECORDS : "from"
+    CROPS ||--o{ CROP_YIELD_RECORDS : "has"
+    SEASONS ||--o{ CROP_YIELD_RECORDS : "in"
+    CROP_YIELD_RECORDS ||--o{ AUDITS : "tracked by"
+
+    STATES {
+        uuid state_id PK
+        string state_name UK
+    }
+
+    CROPS {
+        uuid crop_id PK
+        string crop_name UK
+    }
+
+    SEASONS {
+        uuid season_id PK
+        string season_name UK
+    }
+
+    CROP_YIELD_RECORDS {
+        uuid record_id PK
+        uuid state_id FK
+        uuid crop_id FK
+        uuid season_id FK
+        integer crop_year
+        numeric area
+        numeric production
+        numeric annual_rainfall
+        numeric fertilizer
+        numeric pesticide
+        numeric yield
+        timestamp created_at
+    }
+
+    AUDITS {
+        bigint audit_id PK
+        string table_name
+        string operation
+        uuid row_pk
+        timestamp changed_at
+        string changed_by
+        json old_values
+        json new_values
+    }
