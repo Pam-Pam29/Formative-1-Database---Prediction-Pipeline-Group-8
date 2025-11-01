@@ -21,3 +21,4 @@ venv/
 # Database credentials
 *_credentials.txt
 *_config.json
+__pycache__/
