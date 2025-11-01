@@ -3,9 +3,16 @@ from pymongo import MongoClient, UpdateOne
 from pathlib import Path
 import os
 from datetime import datetime
+import requests
 
-# CSV path
 CSV_FILE = Path(__file__).parent / "crop_yield.csv"
+
+# Download CSV if it doesn't exist
+if not CSV_FILE.exists():
+    url = "https://raw.githubusercontent.com/Pam-Pam29/Formative-1-Database---Prediction-Pipeline-Group-8/main/db/postgres/crop_yield.csv"
+    r = requests.get(url)
+    CSV_FILE.write_bytes(r.content)
+
 
 # MongoDB connection
 MONGO_URI = os.getenv("MONGO_URI", "mongodb://localhost:27017/")
