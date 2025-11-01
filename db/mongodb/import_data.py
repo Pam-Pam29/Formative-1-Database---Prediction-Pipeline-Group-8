@@ -12,6 +12,28 @@ MONGO_URI = os.getenv("MONGO_URI", "mongodb://localhost:27017/")
 client = MongoClient(MONGO_URI)
 db = client.agro_yield
 
+#Audit Logging
+def log_audit(operation, collection_name, document_id, changes=None):
+    """Insert an audit log entry"""
+    db.audit_log.insert_one({
+        "operation": operation,           
+        "collection": collection_name,
+        "document_id": document_id,
+        "changes": changes,               
+        "timestamp": datetime.utcnow()
+    })
+
+#Lookup Helpers
+def import_lookup(collection_name, field_name, values):
+    """Upsert lookup values into collection"""
+    operations = [UpdateOne({field_name: v}, {"$setOnInsert": {field_name: v}}, upsert=True) for v in values]
+    if operations:
+        db[collection_name].bulk_write(operations)
+
+def get_lookup_ids(collection_name, field_name):
+    """Return dict of value -> _id"""
+    return {doc[field_name]: doc["_id"] for doc in db[collection_name].find({}, {"_id": 1, field_name: 1})}
+
 #CRUD Operations
 def insert_crop_yield(record):
     """Insert record and log audit"""
