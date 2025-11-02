@@ -22,3 +22,8 @@ venv/
 *_credentials.txt
 *_config.json
 __pycache__/
+
+
+# Saved model files
+*.h5
+*.pkl
