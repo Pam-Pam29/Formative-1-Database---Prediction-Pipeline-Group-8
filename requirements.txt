@@ -6,3 +6,11 @@ motor>=3.3.2
 pydantic>=2.5.0
 pydantic-settings>=2.1.0
 python-dotenv>=1.0.0
+
+# Add these for the ML prediction script
+pandas
+numpy
+scikit-learn
+tensorflow
+joblib
+requests
