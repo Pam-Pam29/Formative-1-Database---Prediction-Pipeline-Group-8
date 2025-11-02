@@ -15,9 +15,9 @@ if not CSV_FILE.exists():
 
 
 # MongoDB connection
-MONGO_URI = os.getenv("MONGO_URI", "mongodb://localhost:27017/")
+MONGO_URI = "mongodb+srv://<username>:<password>@cluster0.xxxxxx.mongodb.net/?retryWrites=true&w=majority"
 client = MongoClient(MONGO_URI)
-db = client.agro_yield
+db = client.agroyeild
 
 #Audit Logging
 def log_audit(operation, collection_name, document_id, changes=None):
