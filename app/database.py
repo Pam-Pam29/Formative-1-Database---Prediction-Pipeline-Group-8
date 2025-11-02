@@ -100,13 +100,13 @@ def get_async_mongo_client():
     return _async_mongo_client
 
 
-def get_mongo_db(db_name: str = 'agro_yield'):
+def get_mongo_db(db_name: str = 'agroyeild'):
     """Get MongoDB database instance"""
     client = get_mongo_client()
     return client[db_name]
 
 
-async def get_async_mongo_db(db_name: str = 'agro_yield'):
+async def get_async_mongo_db(db_name: str = 'agroyeild'):
     """Get asynchronous MongoDB database instance"""
     client = get_async_mongo_client()
     return client[db_name]
